@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  mongoDb:
+    container_name: filter-db-dev
+    image: mongo
+    ports:
+      - "27817:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "turkcell"
+      MONGO_INITDB_ROOT_PASSWORD: "12345"
+    volumes:
+      - "/data/db"
