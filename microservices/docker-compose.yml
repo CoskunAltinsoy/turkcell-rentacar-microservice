@@ -4,9 +4,8 @@ services:
     container_name: filter-db-dev
     image: mongo
     ports:
-      - "27817:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: "turkcell"
-      MONGO_INITDB_ROOT_PASSWORD: "12345"
+      - "27017:27017"
     volumes:
-      - "/data/db"
+      - mongodb_data:/data/db
+volumes:
+  mongodb_data:
