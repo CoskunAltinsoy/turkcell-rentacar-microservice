@@ -17,16 +17,12 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CreateCarRequest {
     @NotNull
-    @NotBlank
     private UUID modelId;
     @Min(value = 1960)
     private int modelYear;
     @NotNull
     @NotBlank
     private String plate;
-    @NotNull
-    @NotBlank
-    private CarState carState;
     @Min(value = 1)
     private double dailyPrice;
 }

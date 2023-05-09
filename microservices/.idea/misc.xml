@@ -5,6 +5,7 @@
       <list>
         <option value="$PROJECT_DIR$/inventoryService/pom.xml" />
         <option value="$PROJECT_DIR$/commonPackage/pom.xml" />
+        <option value="$PROJECT_DIR$/filterService/pom.xml" />
       </list>
     </option>
   </component>

@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/microservices/commonPackage/commonPackage.iml" filepath="$PROJECT_DIR$/microservices/commonPackage/commonPackage.iml" />
-      <module fileurl="file://$PROJECT_DIR$/microservices/filterService/filterService.iml" filepath="$PROJECT_DIR$/microservices/filterService/filterService.iml" />
-      <module fileurl="file://$PROJECT_DIR$/microservices/inventoryService/inventoryService.iml" filepath="$PROJECT_DIR$/microservices/inventoryService/inventoryService.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/turkcellMicroservices.iml" filepath="$PROJECT_DIR$/.idea/turkcellMicroservices.iml" />
     </modules>
   </component>
