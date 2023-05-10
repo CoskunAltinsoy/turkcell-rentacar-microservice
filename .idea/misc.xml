@@ -7,6 +7,7 @@
         <option value="$PROJECT_DIR$/microservices/commonPackage/pom.xml" />
         <option value="$PROJECT_DIR$/microservices/filterService/pom.xml" />
         <option value="$PROJECT_DIR$/microservices/inventoryService/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/discoveryServer/pom.xml" />
       </list>
     </option>
   </component>
