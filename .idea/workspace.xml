@@ -6,12 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="5321a014-e9c3-473f-8fd0-692d4f93e7ea" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e04a1002-620c-48bb-a897-8a99d24ef0c6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e04a1002-620c-48bb-a897-8a99d24ef0c6.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/commonPackage/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/commonPackage/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/filterService/src/main/java/com/kodlamaio/filterservice/FilterServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/filterService/src/main/java/com/kodlamaio/filterservice/FilterServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/filterService/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/filterService/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/inventoryService/src/main/java/com/kodlamaio/inventoryservice/InventoryServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/inventoryService/src/main/java/com/kodlamaio/inventoryservice/InventoryServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/inventoryService/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/inventoryService/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,11 +63,11 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "application.passwordSafe",
-    "spring.configuration.checksum": "9eac9b77bbf414fbfdb9dfaf00a34300",
+    "spring.configuration.checksum": "27bfe04d8e2d151a77b6b2158ec63314",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -83,7 +85,14 @@
       <recent name="C:\turkcellMicroservices\microservices" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.DiscoveryServerApplication">
+  <component name="RunManager" selected="Spring Boot.ApiGatewayApplication">
+    <configuration name="ApiGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="apiGateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.kodlamaio.apigateway.ApiGatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CommonPackageApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="commonPackage" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.kodlamaio.commonpackage.CommonPackageApplication" />
@@ -111,13 +120,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InventoryServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <configuration name="InventoryServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" singleton="false" nameIsGenerated="true">
       <module name="inventoryService" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.kodlamaio.inventoryservice.InventoryServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Spring Boot.ApiGatewayApplication" />
+      <item itemvalue="Spring Boot.CommonPackageApplication" />
+      <item itemvalue="Spring Boot.DiscoveryServerApplication" />
+      <item itemvalue="Spring Boot.InventoryServiceApplication" />
+      <item itemvalue="Spring Boot.FilterServiceApplication" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.FilterServiceApplication" />
@@ -139,7 +155,8 @@
       <workItem from="1683652056190" duration="3850000" />
       <workItem from="1683658130713" duration="1030000" />
       <workItem from="1683666312172" duration="1545000" />
-      <workItem from="1683708891629" duration="2549000" />
+      <workItem from="1683708891629" duration="3941000" />
+      <workItem from="1683715343714" duration="8269000" />
     </task>
     <servers />
   </component>
