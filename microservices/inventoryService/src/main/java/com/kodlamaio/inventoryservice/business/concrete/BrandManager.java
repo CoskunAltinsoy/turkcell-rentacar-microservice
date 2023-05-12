@@ -1,5 +1,6 @@
 package com.kodlamaio.inventoryservice.business.concrete;
 
+import com.kodlamaio.commonpackage.events.inventory.BrandDeletedEvent;
 import com.kodlamaio.commonpackage.utils.mappers.ModelMapperService;
 import com.kodlamaio.inventoryservice.business.abstracts.BrandService;
 import com.kodlamaio.inventoryservice.business.dto.requests.create.CreateBrandRequest;
@@ -9,6 +10,7 @@ import com.kodlamaio.inventoryservice.business.dto.responses.get.GetAllBrandsRes
 import com.kodlamaio.inventoryservice.business.dto.responses.get.GetBrandResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.update.UpdateBrandResponse;
 import com.kodlamaio.inventoryservice.entities.Brand;
+import com.kodlamaio.inventoryservice.kafka.producer.InventoryProducer;
 import com.kodlamaio.inventoryservice.repository.BrandRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +22,13 @@ import java.util.stream.Collectors;
 public class BrandManager implements BrandService {
     private final BrandRepository brandRepository;
     private final ModelMapperService modelMapperService;
+    private final InventoryProducer inventoryProducer;
     public BrandManager(BrandRepository brandRepository,
-                        ModelMapperService modelMapperService) {
+                        ModelMapperService modelMapperService,
+                        InventoryProducer inventoryProducer) {
         this.brandRepository = brandRepository;
         this.modelMapperService = modelMapperService;
+        this.inventoryProducer = inventoryProducer;
     }
     @Override
     public List<GetAllBrandsResponse> getAll() {
@@ -65,5 +70,9 @@ public class BrandManager implements BrandService {
     @Override
     public void delete(UUID id) {
         brandRepository.deleteById(id);
+        sendKafkaBrandDeletedEvent(id);
+    }
+    private void sendKafkaBrandDeletedEvent(UUID id) {
+        inventoryProducer.sendMessage(new BrandDeletedEvent(id), "brand-deleted");
     }
 }
