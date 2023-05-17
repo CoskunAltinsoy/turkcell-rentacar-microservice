@@ -10,6 +10,7 @@
         <option value="$PROJECT_DIR$/microservices/discoveryServer/pom.xml" />
         <option value="$PROJECT_DIR$/microservices/apiGetaway/pom.xml" />
         <option value="$PROJECT_DIR$/microservices/apiGateway/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/rentalService/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

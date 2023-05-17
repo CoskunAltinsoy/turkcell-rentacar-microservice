@@ -12,7 +12,7 @@ import com.kodlamaio.inventoryservice.business.dto.responses.get.GetCarResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.update.UpdateCarResponse;
 import com.kodlamaio.inventoryservice.entities.Car;
 import com.kodlamaio.inventoryservice.entities.enums.CarState;
-import com.kodlamaio.inventoryservice.kafka.producer.InventoryProducer;
+import com.kodlamaio.inventoryservice.business.kafka.producer.InventoryProducer;
 import com.kodlamaio.inventoryservice.repository.CarRepository;
 import org.springframework.stereotype.Service;
 
