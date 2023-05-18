@@ -19,18 +19,17 @@ import java.util.Map;
 public class GlobalRestExceptionHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-
     public ExceptionResult<Object> handleBusinessException(BusinessException exception) {
         return new ExceptionResult<Object>(
                 exception.getMessage(),
-                "BUSINESS.EXCEPTION",
+                ExceptionTypes.Exception.Business,
                 HttpStatus.UNPROCESSABLE_ENTITY.value()
         );
     }
 
     @ExceptionHandler
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    private ExceptionResult<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+    public ExceptionResult<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         Map<String, String> validationErrors = new HashMap<String, String>();
         for (FieldError fieldError : exception.getBindingResult().getFieldErrors()) {
             validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
@@ -57,7 +56,7 @@ public class GlobalRestExceptionHandler {
 
     @ExceptionHandler
     @ResponseStatus(code = HttpStatus.CONFLICT)
-    private ExceptionResult<Object> handleDataIntegrityViolationExceptionException(DataIntegrityViolationException exception) {
+    public ExceptionResult<Object> handleDataIntegrityViolationExceptionException(DataIntegrityViolationException exception) {
         return new ExceptionResult<Object>(
                 exception.getMessage(),
                 ExceptionTypes.Exception.DataIntegrityViolation,

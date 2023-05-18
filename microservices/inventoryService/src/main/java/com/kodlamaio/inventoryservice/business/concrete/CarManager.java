@@ -10,10 +10,12 @@ import com.kodlamaio.inventoryservice.business.dto.responses.create.CreateCarRes
 import com.kodlamaio.inventoryservice.business.dto.responses.get.GetAllCarsResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.get.GetCarResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.update.UpdateCarResponse;
+import com.kodlamaio.inventoryservice.business.rules.CarBusinessRules;
 import com.kodlamaio.inventoryservice.entities.Car;
 import com.kodlamaio.inventoryservice.entities.enums.CarState;
 import com.kodlamaio.inventoryservice.business.kafka.producer.InventoryProducer;
 import com.kodlamaio.inventoryservice.repository.CarRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,16 +23,13 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CarManager implements CarService {
     private final CarRepository carRepository;
     private final ModelMapperService modelMapperService;
     private final InventoryProducer inventoryProducer;
-    public CarManager(CarRepository carRepository,
-                      ModelMapperService modelMapperService, InventoryProducer inventoryProducer) {
-        this.carRepository = carRepository;
-        this.modelMapperService = modelMapperService;
-        this.inventoryProducer = inventoryProducer;
-    }
+    private final CarBusinessRules carBusinessRules;
+
     @Override
     public List<GetAllCarsResponse> getAll(boolean isMaintenanceIncluded) {
         var cars = carRepository.findAll();
@@ -74,6 +73,18 @@ public class CarManager implements CarService {
         carRepository.deleteById(id);
         sendKafkaCarDeletedEvent(id);
     }
+
+    @Override
+    public void checkIfCarAvailable(UUID id) {
+        carBusinessRules.checkIfCarExists(id);
+        carBusinessRules.checkCarAvailability(id);
+    }
+
+    @Override
+    public void changeStateByCarId(CarState carState, UUID id) {
+        carRepository.changeStateByCarId(carState,id);
+    }
+
     private void sendKafkaCarCreatedEvent(Car createdCar) {
         var event = modelMapperService.forResponse().map(createdCar, CarCreatedEvent.class);
         inventoryProducer.sendMessage(event,"car-created");

@@ -15,4 +15,5 @@ public interface FilterService {
     void deleteAllByBrandId(UUID brandId);
     void deleteAllByModelId(UUID modelId);
     void deleteByCarId(UUID carId);
+    Filter getByCarId(UUID carId);
 }

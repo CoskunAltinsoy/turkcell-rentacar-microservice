@@ -15,7 +15,7 @@ public class RentalBusinessRules {
 
     public void checkIfRentalExists(UUID id) {
         if (!repository.existsById(id)) {
-            throw new BusinessException("MODEL_NOT_EXISTS");
+            throw new BusinessException("RENTAL_NOT_EXISTS");
         }
     }
 

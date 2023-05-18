@@ -12,12 +12,9 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class InventoryProducer {
     private final KafkaTemplate<String, Object> kafkaTemplate;
-
-    public InventoryProducer(KafkaTemplate<String, Object> kafkaTemplate) {
-        this.kafkaTemplate = kafkaTemplate;
-    }
 
     /*public void sendMessage(CarCreatedEvent carCreatedEvent){
         log.info(String.format("car-created event => %s", carCreatedEvent.toString()));

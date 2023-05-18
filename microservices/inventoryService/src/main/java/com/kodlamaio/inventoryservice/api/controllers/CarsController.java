@@ -8,6 +8,7 @@ import com.kodlamaio.inventoryservice.business.dto.responses.get.GetAllCarsRespo
 import com.kodlamaio.inventoryservice.business.dto.responses.get.GetCarResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.update.UpdateCarResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,12 +16,10 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/cars")
 public class CarsController {
     private final CarService carService;
-    public CarsController(CarService carService) {
-        this.carService = carService;
-    }
     @GetMapping()
     public List<GetAllCarsResponse> getAll(@RequestParam(required = false) boolean isMaintenanceIncluded){
         return carService.getAll(isMaintenanceIncluded);
@@ -42,5 +41,9 @@ public class CarsController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable UUID id){
         carService.delete(id);
+    }
+    @GetMapping("/check-car-available/{id}")
+    public void checkIfCarAvailable(@PathVariable UUID id) {
+        carService.checkIfCarAvailable(id);
     }
 }

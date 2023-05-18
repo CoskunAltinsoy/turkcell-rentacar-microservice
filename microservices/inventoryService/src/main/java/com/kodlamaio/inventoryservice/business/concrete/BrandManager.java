@@ -9,9 +9,11 @@ import com.kodlamaio.inventoryservice.business.dto.responses.create.CreateBrandR
 import com.kodlamaio.inventoryservice.business.dto.responses.get.GetAllBrandsResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.get.GetBrandResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.update.UpdateBrandResponse;
+import com.kodlamaio.inventoryservice.business.rules.BrandBusinessRules;
 import com.kodlamaio.inventoryservice.entities.Brand;
 import com.kodlamaio.inventoryservice.business.kafka.producer.InventoryProducer;
 import com.kodlamaio.inventoryservice.repository.BrandRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,17 +21,13 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class BrandManager implements BrandService {
     private final BrandRepository brandRepository;
     private final ModelMapperService modelMapperService;
+    private final BrandBusinessRules brandBusinessRules;
     private final InventoryProducer inventoryProducer;
-    public BrandManager(BrandRepository brandRepository,
-                        ModelMapperService modelMapperService,
-                        InventoryProducer inventoryProducer) {
-        this.brandRepository = brandRepository;
-        this.modelMapperService = modelMapperService;
-        this.inventoryProducer = inventoryProducer;
-    }
+
     @Override
     public List<GetAllBrandsResponse> getAll() {
         var brands = brandRepository.findAll();
@@ -42,6 +40,7 @@ public class BrandManager implements BrandService {
     }
     @Override
     public GetBrandResponse getById(UUID id) {
+        brandBusinessRules.checkIfBrandExists(id);
         var brand = brandRepository.findById(id).orElseThrow();
         var response = modelMapperService.forResponse().map(brand, GetBrandResponse.class);
 
