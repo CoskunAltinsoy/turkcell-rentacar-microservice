@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/microservices/apiGetaway/pom.xml" />
         <option value="$PROJECT_DIR$/microservices/apiGateway/pom.xml" />
         <option value="$PROJECT_DIR$/microservices/rentalService/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/PaymentService/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

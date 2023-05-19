@@ -6,6 +6,7 @@ import com.kodlamaio.filterservice.business.dto.responses.GetAllFiltersResponse;
 import com.kodlamaio.filterservice.business.dto.responses.GetFilterResponse;
 import com.kodlamaio.filterservice.entities.Filter;
 import com.kodlamaio.filterservice.repository.FilterRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,14 +14,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class FilterManager implements FilterService {
     private final FilterRepository filterRepository;
     private final ModelMapperService modelMapperService;
-
-    public FilterManager(FilterRepository filterRepository, ModelMapperService modelMapperService) {
-        this.filterRepository = filterRepository;
-        this.modelMapperService = modelMapperService;
-    }
 
     @Override
     public List<GetAllFiltersResponse> getAll() {
@@ -43,7 +40,6 @@ public class FilterManager implements FilterService {
 
     @Override
     public void add(Filter filter) {
-        filter.setId(UUID.randomUUID());
         filterRepository.save(filter);
     }
 

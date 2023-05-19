@@ -12,20 +12,36 @@
     </schema>
     <table id="6" parent="5" name="filter"/>
     <column id="7" parent="6" name="_id">
-      <DasType>BinData|12s</DasType>
+      <DasType>ObjectId|12s</DasType>
       <Position>1</Position>
     </column>
     <column id="8" parent="6" name="_class">
       <DasType>String|12s</DasType>
       <Position>2</Position>
     </column>
-    <column id="9" parent="6" name="dailyPrice">
-      <DasType>Double|8s</DasType>
+    <column id="9" parent="6" name="carId">
+      <DasType>BinData|12s</DasType>
       <Position>3</Position>
     </column>
-    <column id="10" parent="6" name="modelYear">
-      <DasType>Int32|4s</DasType>
+    <column id="10" parent="6" name="dailyPrice">
+      <DasType>Double|8s</DasType>
       <Position>4</Position>
+    </column>
+    <column id="11" parent="6" name="modelId">
+      <DasType>BinData|12s</DasType>
+      <Position>5</Position>
+    </column>
+    <column id="12" parent="6" name="modelYear">
+      <DasType>Int32|4s</DasType>
+      <Position>6</Position>
+    </column>
+    <column id="13" parent="6" name="plate">
+      <DasType>String|12s</DasType>
+      <Position>7</Position>
+    </column>
+    <column id="14" parent="6" name="state">
+      <DasType>String|12s</DasType>
+      <Position>8</Position>
     </column>
   </database-model>
 </dataSource>
