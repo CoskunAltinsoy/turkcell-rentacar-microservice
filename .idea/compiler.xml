@@ -13,6 +13,7 @@
         <module name="commonPackage" />
         <module name="discoveryserver" />
         <module name="filterService" />
+        <module name="maintenanceService" />
       </profile>
     </annotationProcessing>
   </component>
@@ -23,6 +24,7 @@
       <module name="discoveryserver" options="-parameters" />
       <module name="filterService" options="-parameters" />
       <module name="inventoryService" options="-parameters" />
+      <module name="maintenanceService" options="-parameters" />
       <module name="paymentService" options="-parameters" />
       <module name="rentalService" options="-parameters" />
     </option>
