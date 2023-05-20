@@ -8,22 +8,22 @@
         <outputRelativeToContentRoot value="true" />
         <module name="inventoryService" />
         <module name="rentalService" />
+        <module name="paymentService" />
         <module name="apiGateway" />
         <module name="commonPackage" />
         <module name="discoveryserver" />
         <module name="filterService" />
-        <module name="PaymentService" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="PaymentService" options="-parameters" />
       <module name="apiGateway" options="-parameters" />
       <module name="commonPackage" options="-parameters" />
       <module name="discoveryserver" options="-parameters" />
       <module name="filterService" options="-parameters" />
       <module name="inventoryService" options="-parameters" />
+      <module name="paymentService" options="-parameters" />
       <module name="rentalService" options="-parameters" />
     </option>
   </component>

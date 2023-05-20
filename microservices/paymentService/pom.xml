@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.kodlamaio</groupId>
-    <artifactId>PaymentService</artifactId>
+    <artifactId>paymentService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>PaymentService</name>
     <description>PaymentService</description>
