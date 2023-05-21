@@ -1,4 +1,4 @@
-package com.kodlamaio.commonpackage.events.rentel;
+package com.kodlamaio.commonpackage.events.rental;
 
 import com.kodlamaio.commonpackage.events.Event;
 import lombok.AllArgsConstructor;

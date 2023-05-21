@@ -1,8 +1,10 @@
 package com.kodlamaio.rentalservice.business.concrete;
 
-import com.kodlamaio.commonpackage.events.rentel.RentalCreatedEvent;
-import com.kodlamaio.commonpackage.events.rentel.RentalDeletedEvent;
+import com.kodlamaio.commonpackage.events.rental.RentalCreatedEvent;
+import com.kodlamaio.commonpackage.events.rental.RentalDeletedEvent;
+import com.kodlamaio.commonpackage.events.rental.RentalPaymentEvent;
 import com.kodlamaio.commonpackage.kafka.KafkaProducer;
+import com.kodlamaio.commonpackage.utils.dto.CreateRentalPaymentRequest;
 import com.kodlamaio.commonpackage.utils.mappers.ModelMapperService;
 import com.kodlamaio.rentalservice.business.abstracts.RentalService;
 import com.kodlamaio.rentalservice.business.dto.requests.CreateRentalRequest;
@@ -55,6 +57,12 @@ public class RentalManager implements RentalService {
         rental.setId(null);
         rental.setTotalPrice(getTotalPrice(rental));
         rental.setRentedAt(LocalDate.now());
+
+        CreateRentalPaymentRequest createRentalPaymentRequest = new CreateRentalPaymentRequest();
+        modelMapperService.forRequest().map(createRentalRequest.getPaymentRequest(), createRentalPaymentRequest);
+        createRentalPaymentRequest.setPrice(getTotalPrice(rental));
+        SendKafkaRentalPaymentEvent(createRentalPaymentRequest);
+        
         rentalRepository.save(rental);
         sendKafkaRentalCreatedEvent(createRentalRequest.getCarId());
 
@@ -62,7 +70,6 @@ public class RentalManager implements RentalService {
 
         return response;
     }
-
     @Override
     public UpdateRentalResponse update(UpdateRentalRequest updateRentalRequest) {
         rentalBusinessRules.checkIfRentalExists(updateRentalRequest.getId());
@@ -88,5 +95,9 @@ public class RentalManager implements RentalService {
     private void sendKafkaRentalDeletedEvent(UUID id){
         var carId = rentalRepository.findById(id).orElseThrow().getCarId();
         kafkaProducer.sendMessage(new RentalDeletedEvent(carId), "rental-deleted");
+    }
+    private void SendKafkaRentalPaymentEvent(CreateRentalPaymentRequest createRentalPaymentRequest) {
+        kafkaProducer.sendMessage(new RentalPaymentEvent(createRentalPaymentRequest),
+                "rental-payment-created");
     }
 }

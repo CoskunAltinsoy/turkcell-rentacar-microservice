@@ -1,7 +1,7 @@
 package com.kodlamaio.inventoryservice.business.kafka.consumer;
 
-import com.kodlamaio.commonpackage.events.rentel.RentalCreatedEvent;
-import com.kodlamaio.commonpackage.events.rentel.RentalDeletedEvent;
+import com.kodlamaio.commonpackage.events.rental.RentalCreatedEvent;
+import com.kodlamaio.commonpackage.events.rental.RentalDeletedEvent;
 import com.kodlamaio.inventoryservice.business.abstracts.CarService;
 import com.kodlamaio.inventoryservice.entities.enums.CarState;
 import lombok.RequiredArgsConstructor;
