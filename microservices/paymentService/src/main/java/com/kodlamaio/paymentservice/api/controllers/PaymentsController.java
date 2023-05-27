@@ -1,5 +1,7 @@
 package com.kodlamaio.paymentservice.api.controllers;
 
+import com.kodlamaio.commonpackage.utils.dto.ClientResponse;
+import com.kodlamaio.commonpackage.utils.dto.CreateRentalPaymentRequest;
 import com.kodlamaio.paymentservice.business.abstracts.PaymentService;
 import com.kodlamaio.paymentservice.business.dto.requests.CreatePaymentRequest;
 import com.kodlamaio.paymentservice.business.dto.requests.UpdatePaymentRequest;
@@ -37,14 +39,17 @@ public class PaymentsController {
         return service.add(createPaymentRequest);
     }
 
-    @PutMapping("/{id}")
-    public UpdatePaymentResponse update(@PathVariable int id,
-                                        @Valid @RequestBody UpdatePaymentRequest updatePaymentRequest) {
+    @PutMapping()
+    public UpdatePaymentResponse update(@Valid @RequestBody UpdatePaymentRequest updatePaymentRequest) {
         return service.update(updatePaymentRequest);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id) {
         service.delete(id);
+    }
+    @PostMapping("/check")
+    public ClientResponse processRentalPayment(@RequestBody CreateRentalPaymentRequest request) {
+        return service.processRentalPayment(request);
     }
 }

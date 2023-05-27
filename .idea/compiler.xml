@@ -6,9 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="invoiceService" />
         <module name="inventoryService" />
         <module name="rentalService" />
         <module name="paymentService" />
+        <module name="configServer" />
         <module name="apiGateway" />
         <module name="commonPackage" />
         <module name="discoveryserver" />
@@ -21,9 +23,11 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="apiGateway" options="-parameters" />
       <module name="commonPackage" options="-parameters" />
+      <module name="configServer" options="-parameters" />
       <module name="discoveryserver" options="-parameters" />
       <module name="filterService" options="-parameters" />
       <module name="inventoryService" options="-parameters" />
+      <module name="invoiceService" options="-parameters" />
       <module name="maintenanceService" options="-parameters" />
       <module name="paymentService" options="-parameters" />
       <module name="rentalService" options="-parameters" />

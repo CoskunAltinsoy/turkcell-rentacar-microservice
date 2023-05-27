@@ -1,6 +1,9 @@
 package com.kodlamaio.paymentservice.business.concrete;
 
+import com.kodlamaio.commonpackage.utils.dto.ClientResponse;
 import com.kodlamaio.commonpackage.utils.dto.CreateRentalPaymentRequest;
+import com.kodlamaio.commonpackage.utils.exceptions.BusinessException;
+import com.kodlamaio.commonpackage.utils.mappers.ModelMapperService;
 import com.kodlamaio.paymentservice.adapters.PosService;
 import com.kodlamaio.paymentservice.business.abstracts.PaymentService;
 import com.kodlamaio.paymentservice.business.dto.requests.CreatePaymentRequest;
@@ -22,65 +25,78 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class PaymentManager implements PaymentService {
-    private final PaymentRepository paymentRepository;
-    private final ModelMapper modelMapper;
-    private final PaymentBusinessRules paymentBusinessRules;
+    private final PaymentRepository repository;
+    private final ModelMapperService mapper;
+    private final PaymentBusinessRules rules;
     private final PosService posService;
     @Override
     public List<GetAllPaymentsResponse> getAll() {
-        List<Payment> payments = paymentRepository.findAll();
-        List<GetAllPaymentsResponse> getAllPaymentsResponses = payments
+        List<Payment> payments = repository.findAll();
+        List<GetAllPaymentsResponse> responses = payments
                 .stream()
-                .map(payment -> modelMapper.map(payment, GetAllPaymentsResponse.class))
+                .map(payment -> mapper.forResponse().map(payment, GetAllPaymentsResponse.class))
                 .toList();
 
-        return getAllPaymentsResponses;
+        return responses;
     }
 
     @Override
     public GetPaymentResponse getById(UUID id) {
-        paymentBusinessRules.checkIfPaymentExists(id);
-        Payment payment = paymentRepository.findById(id).orElseThrow();
-        GetPaymentResponse getPaymentResponse = modelMapper.map(payment, GetPaymentResponse.class);
+        rules.checkIfPaymentExists(id);
+        Payment payment = repository.findById(id).orElseThrow();
+        GetPaymentResponse response = mapper.forResponse().map(payment, GetPaymentResponse.class);
 
-        return getPaymentResponse;
+        return response;
     }
 
     @Override
-    public CreatePaymentResponse add(CreatePaymentRequest createPaymentRequest) {
-        paymentBusinessRules.checkIfCardExists(createPaymentRequest);
-        Payment payment = modelMapper.map(createPaymentRequest, Payment.class);
+    public CreatePaymentResponse add(CreatePaymentRequest request) {
+        rules.checkIfCardExists(request);
+        Payment payment = mapper.forRequest().map(request, Payment.class);
         payment.setId(UUID.randomUUID());
-        paymentRepository.save(payment);
-        CreatePaymentResponse createPaymentResponse
-                = modelMapper.map(payment, CreatePaymentResponse.class);
+        repository.save(payment);
+        CreatePaymentResponse response
+                = mapper.forResponse().map(payment, CreatePaymentResponse.class);
 
-        return createPaymentResponse;
+        return response;
     }
 
     @Override
     public UpdatePaymentResponse update(UpdatePaymentRequest updatePaymentRequest) {
-        paymentBusinessRules.checkIfPaymentExists(updatePaymentRequest.getId());
-        Payment payment = modelMapper.map(updatePaymentRequest, Payment.class);
-        paymentRepository.save(payment);
-        UpdatePaymentResponse updatePaymentResponse = modelMapper.map(payment, UpdatePaymentResponse.class);
+        rules.checkIfPaymentExists(updatePaymentRequest.getId());
+        Payment payment = mapper.forRequest().map(updatePaymentRequest, Payment.class);
+        repository.save(payment);
+        UpdatePaymentResponse response = mapper.forResponse().map(payment, UpdatePaymentResponse.class);
 
-        return updatePaymentResponse;
+        return response;
     }
 
     @Override
     public void delete(UUID id) {
-        paymentBusinessRules.checkIfPaymentExists(id);
-        paymentRepository.deleteById(id);
+        rules.checkIfPaymentExists(id);
+        repository.deleteById(id);
     }
 
     @Override
-    public void processRentalPayment(CreateRentalPaymentRequest createRentalPaymentRequest) {
-        paymentBusinessRules.checkIfPaymentIsValid(createRentalPaymentRequest);
-        Payment payment = paymentRepository.findByCardNumber(createRentalPaymentRequest.getCardNumber());
-        paymentBusinessRules.checkIfBalanceIsEnough(createRentalPaymentRequest.getPrice(), payment.getBalance());
-        posService.pay();
-        payment.setBalance(payment.getBalance() - createRentalPaymentRequest.getPrice());
-        paymentRepository.save(payment);
+    public ClientResponse processRentalPayment(CreateRentalPaymentRequest request) {
+        var response = new ClientResponse();
+        processPayment(request,response);
+
+        return response;
+    }
+    private void processPayment(CreateRentalPaymentRequest request, ClientResponse response){
+        try {
+            rules.checkIfPaymentIsValid(request);
+            Payment payment = repository.findByCardNumber(request.getCardNumber());
+            rules.checkIfBalanceIsEnough(request.getPrice(), payment.getBalance());
+            posService.pay();
+            payment.setBalance(payment.getBalance() - request.getPrice());
+            repository.save(payment);
+            response.setSuccess(true);
+
+        }catch (BusinessException exception) {
+            response.setSuccess(false);
+            response.setMessage(exception.getMessage());
+        }
     }
 }
