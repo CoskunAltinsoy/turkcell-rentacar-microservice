@@ -21,5 +21,5 @@ public class InvoiceCreatedEvent implements Event {
     private double dailyPrice;
     private double totalPrice;
     private int rentedForDays;
-    private LocalDate rentedAt;
+   // private LocalDate rentedAt;
 }

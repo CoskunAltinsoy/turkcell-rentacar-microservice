@@ -10,13 +10,9 @@ import com.kodlamaio.invoiceservice.business.dto.responses.UpdateInvoiceResponse
 import com.kodlamaio.invoiceservice.entities.Invoice;
 import com.kodlamaio.invoiceservice.repository.InvoiceRepository;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +31,7 @@ public class InvoiceManager implements InvoiceService {
     }
 
     @Override
-    public GetInvoiceResponse getById(UUID id) {
+    public GetInvoiceResponse getById(String id) {
        // invoiceBusinessRules.checkIfInvoiceExists(id);
         Invoice invoice = repository.findById(id).orElseThrow();
         GetInvoiceResponse getInvoiceResponse = mapper.forResponse().map(invoice, GetInvoiceResponse.class);
@@ -46,7 +42,7 @@ public class InvoiceManager implements InvoiceService {
     @Override
     public CreateInvoiceResponse add(Invoice invoice) {
        // invoice.setRentedAt(LocalDate.now());
-        invoice.setId(UUID.randomUUID());
+        invoice.setId(null);
         invoice.setTotalPrice(getTotalPrice(invoice));
 
         repository.save(invoice);
@@ -62,7 +58,7 @@ public class InvoiceManager implements InvoiceService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(String id) {
 
     }
     private double getTotalPrice(Invoice invoice) {

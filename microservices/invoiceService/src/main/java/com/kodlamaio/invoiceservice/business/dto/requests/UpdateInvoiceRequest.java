@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateInvoiceRequest {
-    private UUID id;
+    private String id;
     @NotBlank
     private String cardHolder;
     @NotBlank

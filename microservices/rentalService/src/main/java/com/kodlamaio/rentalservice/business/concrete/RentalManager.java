@@ -4,7 +4,6 @@ import com.kodlamaio.commonpackage.events.invoice.InvoiceCreatedEvent;
 import com.kodlamaio.commonpackage.events.rental.RentalCreatedEvent;
 import com.kodlamaio.commonpackage.events.rental.RentalDeletedEvent;
 import com.kodlamaio.commonpackage.kafka.KafkaProducer;
-import com.kodlamaio.commonpackage.utils.dto.ClientResponse;
 import com.kodlamaio.commonpackage.utils.dto.CreateRentalPaymentRequest;
 import com.kodlamaio.commonpackage.utils.dto.GetCarResponse;
 import com.kodlamaio.commonpackage.utils.mappers.ModelMapperService;
@@ -24,7 +23,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -116,7 +114,7 @@ public class RentalManager implements RentalService {
         event.setDailyPrice(rental.getDailyPrice());
         event.setTotalPrice(rental.getTotalPrice());
         event.setRentedForDays(rental.getRentedForDays());
-        event.setRentedAt(rental.getRentedAt());
+       // event.setRentedAt(rental.getRentedAt());
         kafkaProducer.sendMessage(event,"invoice-created");
     }
 }

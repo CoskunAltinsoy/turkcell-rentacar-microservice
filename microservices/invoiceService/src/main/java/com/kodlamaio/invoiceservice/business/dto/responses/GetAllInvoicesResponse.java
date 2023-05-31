@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetAllInvoicesResponse {
-    private UUID id;
+    private String id;
     private String cardHolder;
     private String modelName;
     private String brandName;

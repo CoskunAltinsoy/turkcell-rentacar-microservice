@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,7 +26,7 @@ public class InvoicesController {
     }
 
     @GetMapping("/{id}")
-    public GetInvoiceResponse getById(@PathVariable UUID id) {
+    public GetInvoiceResponse getById(@PathVariable String id) {
         return service.getById(id);
     }
 
@@ -44,7 +43,7 @@ public class InvoicesController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable UUID id) {
+    public void delete(@PathVariable String id) {
         service.delete(id);
     }
 
