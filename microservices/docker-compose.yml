@@ -19,13 +19,21 @@ services:
     volumes:
       - .:/opt/jboss/keycloak/imports
 
-  mongoDb:
+  mongoDb1:
     container_name: filter-db-dev
     image: mongo
     ports:
       - "27017:27017"
     volumes:
-      - mongodb_data:/data/db
+      - mongodb1_data:/data/db
+
+  mongoDb2:
+    container_name: invoice-db-dev
+    image: mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb2_data:/data/db
 
   mysqlDb:
     image: mysql
@@ -56,5 +64,6 @@ networks:
   elastic:
 volumes:
   kafka_data:
-  mongodb_data:
+  mongodb1_data:
+  mongodb2_data:
   mysqldb_data:

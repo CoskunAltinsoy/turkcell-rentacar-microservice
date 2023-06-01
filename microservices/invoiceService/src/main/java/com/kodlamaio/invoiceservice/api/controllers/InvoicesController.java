@@ -7,6 +7,7 @@ import com.kodlamaio.invoiceservice.business.dto.responses.GetAllInvoicesRespons
 import com.kodlamaio.invoiceservice.business.dto.responses.GetInvoiceResponse;
 import com.kodlamaio.invoiceservice.business.dto.responses.UpdateInvoiceResponse;
 import com.kodlamaio.invoiceservice.entities.Invoice;
+import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,10 @@ import java.util.List;
 @RequestMapping("/api/invoices")
 public class InvoicesController {
     private final InvoiceService service;
+    @PostConstruct
+    public void createDb() {
 
+    }
     @GetMapping
     public List<GetAllInvoicesResponse> getAll() {
         return service.getAll();

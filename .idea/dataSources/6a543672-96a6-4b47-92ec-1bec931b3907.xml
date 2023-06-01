@@ -1,47 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataSource name="filterdb@localhost">
+<dataSource name="@invoicedb">
   <database-model serializer="dbm" dbms="MONGO" family-id="MONGO" format-version="4.48">
     <root id="1">
       <ServerVersion>6.0.5</ServerVersion>
     </root>
     <schema id="2" parent="1" name="admin"/>
     <schema id="3" parent="1" name="config"/>
-    <schema id="4" parent="1" name="filterdb">
-      <Current>1</Current>
-    </schema>
+    <schema id="4" parent="1" name="invoicedb"/>
     <schema id="5" parent="1" name="local"/>
-    <schema id="6" parent="1" name="test"/>
-    <table id="7" parent="4" name="filter"/>
-    <column id="8" parent="7" name="_id">
+    <table id="6" parent="4" name="invoice"/>
+    <column id="7" parent="6" name="_id">
       <DasType>ObjectId|12s</DasType>
       <Position>1</Position>
     </column>
-    <column id="9" parent="7" name="_class">
+    <column id="8" parent="6" name="_class">
       <DasType>String|12s</DasType>
       <Position>2</Position>
     </column>
-    <column id="10" parent="7" name="carId">
-      <DasType>BinData|12s</DasType>
+    <column id="9" parent="6" name="cardHolder">
+      <DasType>String|12s</DasType>
       <Position>3</Position>
     </column>
-    <column id="11" parent="7" name="dailyPrice">
+    <column id="10" parent="6" name="dailyPrice">
       <DasType>Double|8s</DasType>
       <Position>4</Position>
     </column>
-    <column id="12" parent="7" name="modelId">
-      <DasType>BinData|12s</DasType>
+    <column id="11" parent="6" name="modelYear">
+      <DasType>Int32|4s</DasType>
       <Position>5</Position>
     </column>
-    <column id="13" parent="7" name="modelYear">
-      <DasType>Int32|4s</DasType>
+    <column id="12" parent="6" name="plate">
+      <DasType>String|12s</DasType>
       <Position>6</Position>
     </column>
-    <column id="14" parent="7" name="plate">
-      <DasType>String|12s</DasType>
+    <column id="13" parent="6" name="rentedForDays">
+      <DasType>Int32|4s</DasType>
       <Position>7</Position>
     </column>
-    <column id="15" parent="7" name="state">
-      <DasType>String|12s</DasType>
+    <column id="14" parent="6" name="totalPrice">
+      <DasType>Double|8s</DasType>
       <Position>8</Position>
     </column>
   </database-model>

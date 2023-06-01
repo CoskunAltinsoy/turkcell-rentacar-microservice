@@ -27,7 +27,10 @@
       <secret-storage>master_key</secret-storage>
       <schema-mapping>
         <introspection-scope>
-          <node kind="schema" qname="@" />
+          <node kind="schema">
+            <name qname="@" />
+            <name qname="filterdb" />
+          </node>
         </introspection-scope>
       </schema-mapping>
     </data-source>
@@ -45,6 +48,16 @@
             <name qname="@" />
             <name qname="maintenancedb" />
           </node>
+        </introspection-scope>
+      </schema-mapping>
+    </data-source>
+    <data-source name="@invoicedb" uuid="6a543672-96a6-4b47-92ec-1bec931b3907">
+      <database-info product="Mongo DB" version="6.0.5" jdbc-version="4.2" driver-name="MongoDB JDBC Driver" driver-version="1.18" dbms="MONGO" exact-version="6.0.5" />
+      <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
+      <secret-storage>master_key</secret-storage>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="schema" qname="invoicedb" />
         </introspection-scope>
       </schema-mapping>
     </data-source>
