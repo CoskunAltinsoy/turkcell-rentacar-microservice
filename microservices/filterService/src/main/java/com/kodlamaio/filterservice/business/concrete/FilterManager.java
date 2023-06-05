@@ -29,40 +29,34 @@ public class FilterManager implements FilterService {
 
         return response;
     }
-
     @Override
-    public GetFilterResponse getById(UUID id) {
+    public GetFilterResponse getById(String id) {
         var filter = filterRepository.findById(id);
         var response = modelMapperService.forResponse().map(filter, GetFilterResponse.class);
 
         return response;
     }
-
     @Override
     public void add(Filter filter) {
         filterRepository.save(filter);
     }
-
     @Override
-    public void delete(UUID id) {
+    public void delete(String id) {
         filterRepository.deleteById(id);
     }
-
     @Override
     public void deleteAllByBrandId(UUID brandId) {
         filterRepository.deleteAllByBrandId(brandId);
     }
-
     @Override
     public void deleteAllByModelId(UUID modelId) {
-
+        filterRepository.deleteAllByModelId(modelId);
     }
 
     @Override
     public void deleteByCarId(UUID carId) {
         filterRepository.deleteByCarId(carId);
     }
-
     @Override
     public Filter getByCarId(UUID carId) {
         return filterRepository.findByCarId(carId);

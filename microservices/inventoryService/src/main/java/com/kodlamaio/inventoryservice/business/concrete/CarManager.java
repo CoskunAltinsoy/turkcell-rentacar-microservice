@@ -6,12 +6,15 @@ import com.kodlamaio.commonpackage.kafka.KafkaProducer;
 import com.kodlamaio.commonpackage.utils.dto.ClientResponse;
 import com.kodlamaio.commonpackage.utils.exceptions.BusinessException;
 import com.kodlamaio.commonpackage.utils.mappers.ModelMapperService;
+import com.kodlamaio.inventoryservice.business.abstracts.BrandService;
 import com.kodlamaio.inventoryservice.business.abstracts.CarService;
+import com.kodlamaio.inventoryservice.business.abstracts.ModelService;
 import com.kodlamaio.inventoryservice.business.dto.requests.create.CreateCarRequest;
 import com.kodlamaio.inventoryservice.business.dto.requests.update.UpdateCarRequest;
 import com.kodlamaio.inventoryservice.business.dto.responses.create.CreateCarResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.get.GetAllCarsResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.get.GetCarResponse;
+import com.kodlamaio.inventoryservice.business.dto.responses.get.GetModelResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.update.UpdateCarResponse;
 import com.kodlamaio.inventoryservice.business.rules.CarBusinessRules;
 import com.kodlamaio.inventoryservice.entities.Car;
@@ -31,6 +34,8 @@ public class CarManager implements CarService {
     private final ModelMapperService modelMapperService;
     private final KafkaProducer kafkaProducer;
     private final CarBusinessRules carBusinessRules;
+    private final ModelService modelService;
+    private final BrandService brandService;
 
     @Override
     public List<GetAllCarsResponse> getAll(boolean isMaintenanceIncluded) {
@@ -90,6 +95,14 @@ public class CarManager implements CarService {
 
     private void sendKafkaCarCreatedEvent(Car createdCar) {
         var event = modelMapperService.forResponse().map(createdCar, CarCreatedEvent.class);
+
+        var model = modelService.getById(createdCar.getModel().getId());
+        var brand = brandService.getById(model.getBrandId());
+
+        event.setBrandId(brand.getId());
+        event.setModelName(model.getName());
+        event.setBrandName(brand.getName());
+
         kafkaProducer.sendMessage(event,"car-created");
     }
     private void sendKafkaCarDeletedEvent(UUID id) {

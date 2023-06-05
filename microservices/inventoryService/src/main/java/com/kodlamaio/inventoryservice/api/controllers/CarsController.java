@@ -11,6 +11,7 @@ import com.kodlamaio.inventoryservice.business.dto.responses.update.UpdateCarRes
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.UUID;
 @RequestMapping("/api/cars")
 public class CarsController {
     private final CarService carService;
+    @Secured("ROLE_admin")
     @GetMapping()
     public List<GetAllCarsResponse> getAll(@RequestParam(required = false) boolean isMaintenanceIncluded){
         return carService.getAll(isMaintenanceIncluded);

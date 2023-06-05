@@ -1,5 +1,8 @@
 package com.kodlamaio.inventoryservice.business.concrete;
 
+import com.kodlamaio.commonpackage.events.inventory.BrandDeletedEvent;
+import com.kodlamaio.commonpackage.events.inventory.ModelDeletedEvent;
+import com.kodlamaio.commonpackage.kafka.KafkaProducer;
 import com.kodlamaio.commonpackage.utils.mappers.ModelMapperService;
 import com.kodlamaio.inventoryservice.business.abstracts.ModelService;
 import com.kodlamaio.inventoryservice.business.dto.requests.create.CreateModelRequest;
@@ -10,6 +13,7 @@ import com.kodlamaio.inventoryservice.business.dto.responses.get.GetModelRespons
 import com.kodlamaio.inventoryservice.business.dto.responses.update.UpdateModelResponse;
 import com.kodlamaio.inventoryservice.entities.Model;
 import com.kodlamaio.inventoryservice.repository.ModelRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,15 +21,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ModelManager implements ModelService {
     private final ModelRepository modelRepository;
     private final ModelMapperService modelMapperService;
-
-    public ModelManager(ModelRepository modelRepository,
-                        ModelMapperService modelMapperService) {
-        this.modelRepository = modelRepository;
-        this.modelMapperService = modelMapperService;
-    }
+    private final KafkaProducer kafkaProducer;
     @Override
     public List<GetAllModelsResponse> getAll() {
         var models = modelRepository.findAll();
@@ -63,5 +63,10 @@ public class ModelManager implements ModelService {
     @Override
     public void delete(UUID id) {
         modelRepository.deleteById(id);
+        sendKafkaModelDeletedEvent(id);
+    }
+
+    private void sendKafkaModelDeletedEvent(UUID id) {
+        kafkaProducer.sendMessage(new ModelDeletedEvent(id), "model-deleted");
     }
 }
