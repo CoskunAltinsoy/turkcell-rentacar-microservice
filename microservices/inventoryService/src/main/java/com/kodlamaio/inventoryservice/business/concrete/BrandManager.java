@@ -1,6 +1,8 @@
 package com.kodlamaio.inventoryservice.business.concrete;
 
 import com.kodlamaio.commonpackage.events.inventory.BrandDeletedEvent;
+import com.kodlamaio.commonpackage.events.inventory.BrandUpdatedEvent;
+import com.kodlamaio.commonpackage.events.inventory.CarUpdatedEvent;
 import com.kodlamaio.commonpackage.kafka.KafkaProducer;
 import com.kodlamaio.commonpackage.utils.mappers.ModelMapperService;
 import com.kodlamaio.inventoryservice.business.abstracts.BrandService;
@@ -12,6 +14,7 @@ import com.kodlamaio.inventoryservice.business.dto.responses.get.GetBrandRespons
 import com.kodlamaio.inventoryservice.business.dto.responses.update.UpdateBrandResponse;
 import com.kodlamaio.inventoryservice.business.rules.BrandBusinessRules;
 import com.kodlamaio.inventoryservice.entities.Brand;
+import com.kodlamaio.inventoryservice.entities.Car;
 import com.kodlamaio.inventoryservice.repository.BrandRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -60,7 +63,10 @@ public class BrandManager implements BrandService {
     @Override
     public UpdateBrandResponse update(UpdateBrandRequest updateBrandRequest) {
         var brand = modelMapperService.forRequest().map(updateBrandRequest, Brand.class);
-        brandRepository.save(brand);
+        var updatedBrand = brandRepository.save(brand);
+
+        sendKafkaBrandUpdatedEvent(updatedBrand);
+
         var response = modelMapperService.forResponse().map(brand, UpdateBrandResponse.class);
 
         return response;
@@ -73,5 +79,10 @@ public class BrandManager implements BrandService {
     }
     private void sendKafkaBrandDeletedEvent(UUID id) {
         kafkaProducer.sendMessage(new BrandDeletedEvent(id), "brand-deleted");
+    }
+    private void sendKafkaBrandUpdatedEvent(Brand updatedBrand) {
+        var event = modelMapperService.forResponse().map(updatedBrand, BrandUpdatedEvent.class);
+
+        kafkaProducer.sendMessage(event,"brand-updated");
     }
 }

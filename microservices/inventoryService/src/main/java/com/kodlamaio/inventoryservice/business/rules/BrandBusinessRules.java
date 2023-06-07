@@ -13,7 +13,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BrandBusinessRules {
     private final BrandRepository repository;
-
     public void checkIfBrandExists(UUID id) {
         if (!repository.existsById(id)) {
             throw new BusinessException("BRAND_NOT_EXISTS");

@@ -3,6 +3,7 @@ package com.kodlamaio.rentalservice.business.concrete;
 import com.kodlamaio.commonpackage.events.invoice.InvoiceCreatedEvent;
 import com.kodlamaio.commonpackage.events.rental.RentalCreatedEvent;
 import com.kodlamaio.commonpackage.events.rental.RentalDeletedEvent;
+import com.kodlamaio.commonpackage.events.rental.RentalUpdatedEvent;
 import com.kodlamaio.commonpackage.kafka.KafkaProducer;
 import com.kodlamaio.commonpackage.utils.dto.CreateRentalPaymentRequest;
 import com.kodlamaio.commonpackage.utils.dto.GetCarResponse;
@@ -83,6 +84,8 @@ public class RentalManager implements RentalService {
         rules.checkIfRentalExists(updateRentalRequest.getId());
         var rental = mapper.forRequest().map(updateRentalRequest, Rental.class);
         rentalRepository.save(rental);
+
+        sendKafkaRentalUpdatedEvent(updateRentalRequest.getCarId());
         var response = mapper.forResponse().map(rental, UpdateRentalResponse.class);
 
         return response;
@@ -99,6 +102,9 @@ public class RentalManager implements RentalService {
     }
     private void sendKafkaRentalCreatedEvent(UUID carId){
         kafkaProducer.sendMessage(new RentalCreatedEvent(carId), "rental-created");
+    }
+    private void sendKafkaRentalUpdatedEvent(UUID carId){
+        kafkaProducer.sendMessage(new RentalUpdatedEvent(carId), "rental-updated");
     }
     private void sendKafkaRentalDeletedEvent(UUID id){
         var carId = rentalRepository.findById(id).orElseThrow().getCarId();

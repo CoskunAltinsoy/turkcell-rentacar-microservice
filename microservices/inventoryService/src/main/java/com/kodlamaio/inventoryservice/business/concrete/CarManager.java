@@ -2,6 +2,7 @@ package com.kodlamaio.inventoryservice.business.concrete;
 
 import com.kodlamaio.commonpackage.events.inventory.CarCreatedEvent;
 import com.kodlamaio.commonpackage.events.inventory.CarDeletedEvent;
+import com.kodlamaio.commonpackage.events.inventory.CarUpdatedEvent;
 import com.kodlamaio.commonpackage.kafka.KafkaProducer;
 import com.kodlamaio.commonpackage.utils.dto.ClientResponse;
 import com.kodlamaio.commonpackage.utils.exceptions.BusinessException;
@@ -70,7 +71,10 @@ public class CarManager implements CarService {
     @Override
     public UpdateCarResponse update(UpdateCarRequest updateCarRequest) {
         var car = modelMapperService.forRequest().map(updateCarRequest, Car.class);
-        carRepository.save(car);
+        var updatedCar = carRepository.save(car);
+
+        sendKafkaCarUpdatedEvent(updatedCar);
+
         var response = modelMapperService.forResponse().map(car, UpdateCarResponse.class);
 
         return response;
@@ -104,6 +108,18 @@ public class CarManager implements CarService {
         event.setBrandName(brand.getName());
 
         kafkaProducer.sendMessage(event,"car-created");
+    }
+    private void sendKafkaCarUpdatedEvent(Car updatedCar) {
+        var event = modelMapperService.forResponse().map(updatedCar, CarUpdatedEvent.class);
+
+        var model = modelService.getById(updatedCar.getModel().getId());
+        var brand = brandService.getById(model.getBrandId());
+
+        event.setBrandId(brand.getId());
+        event.setModelName(model.getName());
+        event.setBrandName(brand.getName());
+
+        kafkaProducer.sendMessage(event,"car-updated");
     }
     private void sendKafkaCarDeletedEvent(UUID id) {
         kafkaProducer.sendMessage(new CarDeletedEvent(id), "car-deleted");

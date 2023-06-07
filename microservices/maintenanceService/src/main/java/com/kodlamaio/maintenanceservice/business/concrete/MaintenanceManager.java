@@ -3,6 +3,7 @@ package com.kodlamaio.maintenanceservice.business.concrete;
 import com.kodlamaio.commonpackage.events.maintenance.MaintenanceCompletedEvent;
 import com.kodlamaio.commonpackage.events.maintenance.MaintenanceCreatedEvent;
 import com.kodlamaio.commonpackage.events.maintenance.MaintenanceDeletedEvent;
+import com.kodlamaio.commonpackage.events.maintenance.MaintenanceUpdatedEvent;
 import com.kodlamaio.commonpackage.kafka.KafkaProducer;
 import com.kodlamaio.commonpackage.utils.exceptions.BusinessException;
 import com.kodlamaio.maintenanceservice.business.abstracts.MaintenanceService;
@@ -75,6 +76,9 @@ public class MaintenanceManager implements MaintenanceService {
         maintenanceBusinessRules.checkIfMaintenanceExistsById(updateMaintenanceRequest.getId());
         Maintenance maintenance = modelMapper.map(updateMaintenanceRequest, Maintenance.class);
         this.maintenanceRepository.save(maintenance);
+
+        kafkaProducer.sendMessage
+                (new MaintenanceUpdatedEvent(maintenance.getCarId()),"maintenance-updated");
 
         UpdateMaintenanceResponse updateMaintenanceResponse =
                 modelMapper.map(maintenance, UpdateMaintenanceResponse.class);

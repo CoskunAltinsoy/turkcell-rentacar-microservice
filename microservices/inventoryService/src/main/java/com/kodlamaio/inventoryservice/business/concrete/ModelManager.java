@@ -1,9 +1,12 @@
 package com.kodlamaio.inventoryservice.business.concrete;
 
 import com.kodlamaio.commonpackage.events.inventory.BrandDeletedEvent;
+import com.kodlamaio.commonpackage.events.inventory.BrandUpdatedEvent;
 import com.kodlamaio.commonpackage.events.inventory.ModelDeletedEvent;
+import com.kodlamaio.commonpackage.events.inventory.ModelUpdatedEvent;
 import com.kodlamaio.commonpackage.kafka.KafkaProducer;
 import com.kodlamaio.commonpackage.utils.mappers.ModelMapperService;
+import com.kodlamaio.inventoryservice.business.abstracts.BrandService;
 import com.kodlamaio.inventoryservice.business.abstracts.ModelService;
 import com.kodlamaio.inventoryservice.business.dto.requests.create.CreateModelRequest;
 import com.kodlamaio.inventoryservice.business.dto.requests.update.UpdateModelRequest;
@@ -11,6 +14,7 @@ import com.kodlamaio.inventoryservice.business.dto.responses.create.CreateModelR
 import com.kodlamaio.inventoryservice.business.dto.responses.get.GetAllModelsResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.get.GetModelResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.update.UpdateModelResponse;
+import com.kodlamaio.inventoryservice.entities.Brand;
 import com.kodlamaio.inventoryservice.entities.Model;
 import com.kodlamaio.inventoryservice.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +59,10 @@ public class ModelManager implements ModelService {
     @Override
     public UpdateModelResponse update(UpdateModelRequest updateModelRequest) {
         var model = modelMapperService.forRequest().map(updateModelRequest, Model.class);
-        modelRepository.save(model);
+        var updatedModel = modelRepository.save(model);
+
+        sendKafkaModelUpdatedEvent(updatedModel);
+
         var response = modelMapperService.forResponse().map(model, UpdateModelResponse.class);
 
         return response;
@@ -65,8 +72,12 @@ public class ModelManager implements ModelService {
         modelRepository.deleteById(id);
         sendKafkaModelDeletedEvent(id);
     }
-
     private void sendKafkaModelDeletedEvent(UUID id) {
         kafkaProducer.sendMessage(new ModelDeletedEvent(id), "model-deleted");
+    }
+    private void sendKafkaModelUpdatedEvent(Model updatedModel) {
+        var event = modelMapperService.forResponse().map(updatedModel, ModelUpdatedEvent.class);
+
+        kafkaProducer.sendMessage(event,"model-updated");
     }
 }

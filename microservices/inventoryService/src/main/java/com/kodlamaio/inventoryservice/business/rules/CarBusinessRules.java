@@ -12,7 +12,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CarBusinessRules {
     private final CarRepository repository;
-
     public void checkIfCarExists(UUID id) {
         if (!repository.existsById(id)) {
             throw new BusinessException("CAR_NOT_EXISTS");
