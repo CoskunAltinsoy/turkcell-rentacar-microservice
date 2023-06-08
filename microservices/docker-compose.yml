@@ -19,6 +19,12 @@ services:
     volumes:
       - .:/opt/jboss/keycloak/imports
 
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin-t1
+    ports:
+      - "9411:9411"
+
   mongoDb1:
     container_name: filter-db-dev
     image: mongo
