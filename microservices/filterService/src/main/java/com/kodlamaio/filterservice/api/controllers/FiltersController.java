@@ -17,7 +17,6 @@ import java.util.UUID;
 @RequestMapping("/api/filters")
 public class FiltersController {
     private final FilterService filterService;
-
     @GetMapping
     public List<GetAllFiltersResponse> getAll() {
         return filterService.getAll();

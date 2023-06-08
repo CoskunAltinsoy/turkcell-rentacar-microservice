@@ -1,5 +1,6 @@
 package com.kodlamaio.inventoryservice.entities;
 
+import com.kodlamaio.commonpackage.utils.constants.Roles;
 import com.kodlamaio.inventoryservice.entities.enums.CarState;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private CarState carState;
     private double dailyPrice;
+
     @ManyToOne
     @JoinColumn(name = "model_id")
     private Model model;

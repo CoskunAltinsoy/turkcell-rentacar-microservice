@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MaintenanceConsumer {
     private final FilterService filterService;
-
     @KafkaListener(
             topics = "maintenance-created",
             groupId = "filter-maintenance-create"

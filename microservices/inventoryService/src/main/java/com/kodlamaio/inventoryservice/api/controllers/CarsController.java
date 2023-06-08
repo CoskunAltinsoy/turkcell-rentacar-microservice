@@ -1,5 +1,7 @@
 package com.kodlamaio.inventoryservice.api.controllers;
 
+import com.kodlamaio.commonpackage.utils.constants.Paths;
+import com.kodlamaio.commonpackage.utils.constants.Roles;
 import com.kodlamaio.commonpackage.utils.dto.ClientResponse;
 import com.kodlamaio.inventoryservice.business.abstracts.CarService;
 import com.kodlamaio.inventoryservice.business.dto.requests.create.CreateCarRequest;
@@ -12,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +25,7 @@ import java.util.UUID;
 @RequestMapping("/api/cars")
 public class CarsController {
     private final CarService carService;
-    @Secured("ROLE_admin")
+    @PreAuthorize(Roles.Admin)
     @GetMapping()
     public List<GetAllCarsResponse> getAll(@RequestParam(required = false) boolean isMaintenanceIncluded){
         return carService.getAll(isMaintenanceIncluded);

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/../commonPackage/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../commonPackage/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/maintenanceService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microservices/apiGateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microservices/apiGateway/src/main/resources" charset="UTF-8" />
